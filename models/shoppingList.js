@@ -7,7 +7,6 @@ export async function getShoppingList() {
 }
 
 export async function postListItem(listItem) {
-  console.log(listItem)
   const { item, completed } = listItem;
   const data = await pool.query(
     `INSERT INTO shopping (
@@ -22,4 +21,10 @@ export async function postListItem(listItem) {
 export async function deleteAll() {
   await pool.query(`DELETE FROM shopping`);
   return 'deleted';
+}
+
+export async function updateCompleted(id) {
+  const data = await pool.query(
+    `UPDATE shopping SET completed = NOT completed WHERE id = $1 RETURNING *;`, [id]);
+  return data.rows[0];
 }

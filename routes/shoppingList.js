@@ -1,5 +1,5 @@
 import express from "express";
-import { getShoppingList, postListItem, deleteAll } from "../models/shoppingList.js";
+import { getShoppingList, postListItem, deleteAll, updateCompleted } from "../models/shoppingList.js";
 
 const router = express.Router();
 
@@ -18,6 +18,11 @@ router.post("/", async (req, res) => {
 router.delete('/', async (req, res) => {
   const result = await deleteAll();
   res.status(200).json({ success: true, message: result });
+});
+
+router.patch('/:id', async (req, res) => {
+  const result = await updateCompleted(req.params.id);
+  res.status(200).json({ success: true, payload: result });
 });
 
 export default router;
