@@ -7,6 +7,7 @@ export async function getShoppingList() {
 }
 
 export async function postListItem(listItem) {
+  console.log(listItem)
   const { item, completed } = listItem;
   const data = await pool.query(
     `INSERT INTO shopping (
@@ -16,4 +17,9 @@ export async function postListItem(listItem) {
     [item, completed]
   );
   return data.rows[0];
+}
+
+export async function deleteAll() {
+  await pool.query(`DELETE FROM shopping`);
+  return 'deleted';
 }
